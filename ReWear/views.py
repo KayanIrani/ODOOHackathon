@@ -7,7 +7,7 @@ import requests
 
 # Create your views here.
 def home(req):
-    return HttpResponse("<h1> Home </h1>")
+    return render(req, 'ReWear/home.html')
 
 @csrf_exempt
 def login(req):

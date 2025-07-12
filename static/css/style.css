@@ -207,6 +207,51 @@ button:hover {
   margin-top: 20px;
 }
 
+/* Product Description Page Overrides */
+.product-page-body {
+  overflow: auto !important;
+}
+
+.product-page-body::after {
+  display: none !important;
+}
+
+/* Navigation styles for product pages */
+.product-navbar {
+  background: rgba(157, 78, 221, 0.95);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced card hover effects */
+.enhanced-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.enhanced-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(157, 78, 221, 0.4);
+}
+
+/* Custom scrollbar for product page */
+.product-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.product-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.product-content::-webkit-scrollbar-thumb {
+  background: rgba(157, 78, 221, 0.6);
+  border-radius: 4px;
+}
+
+.product-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(157, 78, 221, 0.8);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .container {

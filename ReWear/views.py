@@ -13,10 +13,10 @@ def signup(req):
     return render(req, 'ReWear/signup.html')
 
 def create(req):
-    return HttpResponse("<h1> Create Listing </h1>")
+    return HttpResponse("<h1> My Products </h1>")
 
 def product(req):
-    return HttpResponse("<h1> My Products </h1>")
+    return render(req, 'ReWear/product_description.html')
 
 def user(req):
     return HttpResponse("<h1> User Dashboard </h1>")

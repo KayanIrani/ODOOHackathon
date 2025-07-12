@@ -13,7 +13,7 @@ export const getUsers = async (req,res) =>{
 };
 
 export const getSpecificUser = async (req,res) =>{
-    const userInput = req.body;
+    const userInput = req.query;
     if (!userInput.name){
         return res.status(400).json({success: false,data: "Please Provide all the fields"});
     }
@@ -30,14 +30,30 @@ export const getSpecificUser = async (req,res) =>{
     }
 }
 
+export const createUser = async (req,res)=>{
+    const user = req.body;
+
+    if (!user.UserFirstName || !user.UserLastName || !user.UserEmail || !user.Username || !user.UserPassword || !user.UserImage){
+        return res.status(400).json({success: false,message: "Please Provide all the fields"});
+    }
+    const newUser = User.create(user);
+
+    try {
+        // await newChat.save();
+        res.status(200).json({success: true,data: newUser});
+    } catch (error) {
+        console.error('Error: ',error);
+        return res.status(500).json({success: false,message: "Internal Sever Error"});
+    }
+};
+
 export const deleteUser = async (req,res)=>
 {
     const {id} = req.params;
-    // console.log("ID :",id);
     try {
-        await Chat.findByIdAndDelete(id);
-        res.status(200).json({success: true, message: "Chosen Chat Deleted Successfully"});
+        await User.findByIdAndDelete(id);
+        res.status(200).json({success: true, data: "Chosen User Deleted Successfully"});
     } catch (error) {
-        res.status(404).json({success:false,message:"Couldn't find chat"})
+        res.status(404).json({success:false,data:"Couldn't find User"})
     }
 };

@@ -19,7 +19,7 @@ export const getSpecificUser = async (req,res) =>{
     }
     else{
         try {
-            const user = await User.find({name:userInput.name});
+            const user = await User.find({Username:userInput.name});
             console.log(user)
             res.status(200).json({success: true, data: user});
         }

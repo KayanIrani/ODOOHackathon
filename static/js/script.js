@@ -36,18 +36,46 @@ document.addEventListener("DOMContentLoaded", function () {
   loginForm.appendChild(errorMsg);
 
   //login form validation
-  loginForm.addEventListener("submit", function (e) {
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value;
-    
-    errorMsg.style.display = "none";
+loginForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-    if (!username || !password) {
-      e.preventDefault();
-      errorMsg.textContent = "Both username and password are required.";
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value;
+
+  errorMsg.style.display = "none";
+
+  if (!username || !password) {
+    errorMsg.textContent = "Both username and password are required.";
+    errorMsg.style.display = "block";
+    return;
+  }
+
+  // Send login POST to Django
+  fetch("/login/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ username: username, password: password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success && data.match) {
+      window.location.href = "/";  // Redirect to homepage
+    } else {
+      errorMsg.textContent = data.message || "Invalid credentials.";
       errorMsg.style.display = "block";
     }
+  })
+  .catch(err => {
+    console.error(err);
+    errorMsg.textContent = "Something went wrong during login.";
+    errorMsg.style.display = "block";
   });
+});
+
+
 
 
   //password visibility toggler

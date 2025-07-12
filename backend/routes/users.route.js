@@ -4,7 +4,7 @@ import { getUsers,getSpecificUser, deleteUser,createUser } from '../controllers/
 const router = express.Router();
 
 router.get("/",getUsers);
-router.get("/signup",getSpecificUser);
+router.get("/search",getSpecificUser);
 router.post("/",createUser);
 router.delete("/:id",deleteUser);
 

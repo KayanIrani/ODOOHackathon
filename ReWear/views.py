@@ -9,8 +9,41 @@ import requests
 def home(req):
     return HttpResponse("<h1> Home </h1>")
 
+@csrf_exempt
 def login(req):
+    if req.method == "POST":
+        try:
+            data = json.loads(req.body)
+            username = data.get("username")
+            password = data.get("password")
+
+            if not username or not password:
+                return JsonResponse({"success": False, "message": "Both fields required"}, status=400)
+
+            # Get user from Express
+            res = requests.get(f"http://localhost:5000/api/users/search?name={username}")
+            json_data = res.json()
+
+            if not json_data["success"] or not json_data["data"]:
+                return JsonResponse({"success": False, "message": "User not found"}, status=404)
+
+            user = json_data["data"][0]
+            hashed_password = user.get("UserPassword")
+
+            if not hashed_password:
+                return JsonResponse({"success": False, "message": "Password missing from DB"}, status=500)
+
+            # Match entered password with hash
+            if check_password(password, hashed_password):
+                return JsonResponse({"success": True, "match": True})
+            else:
+                return JsonResponse({"success": True, "match": False, "message": "Incorrect password"})
+
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)}, status=500)
+
     return render(req, 'ReWear/login.html')
+
 
 def signup(req):
     if req.method == "POST":

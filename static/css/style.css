@@ -2,6 +2,7 @@
 body, html {
   height: 100%;
   margin: 0;
+  padding: 0;
   font-family: 'Segoe UI', sans-serif;
   background: #f6f4f9;
   overflow: hidden;
@@ -12,7 +13,7 @@ body, html {
 /* Background ReWear Text */
 body::before {
   content: "ReWear";
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -23,6 +24,7 @@ body::before {
   user-select: none;
   white-space: nowrap;
   letter-spacing: -5px;
+  pointer-events: none;
 }
 
 /* Layout Container */
@@ -30,9 +32,12 @@ body::before {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
   height: 100%;
   position: relative;
   z-index: 1;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* More translucent login card */
@@ -45,6 +50,9 @@ body::before {
   text-align: center;
   color: #333;
   width: 320px;
+  max-width: 90vw; /* Responsive width */
+  position: relative;
+  z-index: 2;
 }
 
 /* Form Inputs & Buttons */
@@ -89,4 +97,37 @@ button:hover {
   top: 12px;
   cursor: pointer;
   color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .login-card {
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 350px;
+  }
+  
+  body::before {
+    font-size: 30vw;
+  }
+}
+
+@media (max-height: 600px) {
+  .container {
+    align-items: flex-start;
+    padding-top: 50px;
+  }
+  
+  body {
+    overflow-y: auto;
+  }
+}
+
+/* Ensure form elements don't break centering */
+.login-card * {
+  box-sizing: border-box;
 }

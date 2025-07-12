@@ -5,7 +5,7 @@ def home(req):
     return HttpResponse("<h1> Home </h1>")
 
 def login(req):
-    return HttpResponse("<h1> Home </h1>")
+    return render(req, 'ReWear/login.html')
 
 def signup(req):
     return HttpResponse("<h1> Signup </h1>")

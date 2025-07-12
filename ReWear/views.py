@@ -8,7 +8,7 @@ def login(req):
     return render(req, 'ReWear/login.html')
 
 def signup(req):
-    return HttpResponse("<h1> Signup </h1>")
+    return render(req, 'ReWear/signup.html')
 
 def create(req):
     return HttpResponse("<h1> Create Listing </h1>")

@@ -4,32 +4,19 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f6f4f9;
+  background: url('../images/rewear_bg.png') center center/cover no-repeat;
   overflow: hidden;
   position: relative;
   color: #333;
 }
 
-/* Background ReWear Text */
-body::before {
-  content: "ReWear";
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 25vw;
-  font-weight: 900;
-  color: rgba(79, 18, 107, 0.2); /* Dark plum with soft opacity */
-  z-index: 0;
-  user-select: none;
-  white-space: nowrap;
-  letter-spacing: -5px;
-  pointer-events: none;
-}
+/* Remove the old background text since we're using an image */
+/* body::before - removed */
 
 /* Layout Container */
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -38,6 +25,7 @@ body::before {
   z-index: 1;
   padding: 20px;
   box-sizing: border-box;
+  gap: 30px;
 }
 
 /* More translucent login card */
@@ -99,10 +87,80 @@ button:hover {
   color: #666;
 }
 
+/* Signup specific styles */
+.name-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.name-row input {
+  flex: 1;
+  margin: 10px 0;
+}
+
+/* Button variations */
+.signup-button {
+  background-color: transparent !important;
+  color: #9d4edd !important;
+  border: 2px solid #9d4edd !important;
+  margin-top: 10px;
+}
+
+.signup-button:hover {
+  background-color: #9d4edd !important;
+  color: white !important;
+}
+
+/* Password toggle for signup */
+#toggleSignupPassword {
+  position: absolute;
+  right: 15px;
+  top: 12px;
+  cursor: pointer;
+  color: #666;
+}
+
+/* Form navigation links */
+.form-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-link a {
+  color: #9d4edd;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.form-link a:hover {
+  text-decoration: underline;
+  color: #7b2cbf;
+}
+
+/* ReWear Brand Text Below Card */
+.rewear-brand {
+  font-family: 'Titan One', cursive;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 
+    -1px -1px 0 black,
+    1px -1px 0 black,
+    -1px 1px 0 black,
+    1px 1px 0 black;
+  letter-spacing: 2px;
+  user-select: none;
+  z-index: 3;
+  margin-top: 20px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .container {
     padding: 15px;
+    gap: 20px;
   }
   
   .login-card {
@@ -111,8 +169,25 @@ button:hover {
     max-width: 350px;
   }
   
-  body::before {
-    font-size: 30vw;
+  .rewear-brand {
+    font-size: 2.5rem;
+    margin-top: 15px;
+  }
+  
+  .name-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .login-card {
+    max-width: 400px; /* Slightly wider for signup form */
+  }
+}
+
+@media (max-width: 480px) {
+  .rewear-brand {
+    font-size: 2rem;
+    margin-top: 10px;
   }
 }
 

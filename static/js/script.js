@@ -1,3 +1,22 @@
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === (name + "=")) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
 document.addEventListener("DOMContentLoaded", function () {
   const dummyuser = {
     username:"DummyName",
@@ -100,6 +119,42 @@ document.addEventListener("DOMContentLoaded", function () {
         signupError.style.display = "block";
         return;
       }
+
+      e.preventDefault(); // prevent normal form submit
+
+      const signupData = {
+        profilePic: "default",
+        firstName: nameVal,
+        surname: surnameVal,
+        username: usernameVal,
+        email: emailVal,
+        password: passwordVal,
+      };
+
+      fetch("/signup/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken")  
+        },
+        body: JSON.stringify(signupData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert("Signup successful!");
+          window.location.href = "/login/";  //redirection on creation of account
+        } else {
+          signupError.textContent = data.message || "Signup failed.";
+          signupError.style.display = "block";
+        }
+      })
+      .catch(error => {
+        signupError.textContent = "An error occurred during signup. Please retry.";
+        signupError.style.display = "block";
+        console.error(error);
+      });
+
 
     });
     //eye toggler thing for sign up form

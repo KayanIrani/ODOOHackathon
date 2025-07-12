@@ -111,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (passwordVal.length < 8) {
-        alert("password length>8");
         e.preventDefault();
         signupError.textContent = "Password must be at least 8 characters.";
         signupError.style.display = "block";

@@ -4,7 +4,7 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: url('rewear_bg.png') center center/cover no-repeat;
+  background: url("../images/rewear_bg.png") center center/cover no-repeat;
   overflow: hidden;
   position: relative;
   color: #333;

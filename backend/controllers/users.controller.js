@@ -39,7 +39,7 @@ export const createUser = async (req,res)=>{
     const newUser = User.create(user);
 
     try {
-        // await newChat.save();
+        // await newUser.save();
         res.status(200).json({success: true,data: newUser});
     } catch (error) {
         console.error('Error: ',error);

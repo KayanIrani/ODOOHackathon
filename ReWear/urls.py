@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from ReWear.views import home,user,product,create,signup,login
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',home),
+    path('user/',user),
+    path('product/',product),
+    path('create/',create),
+    path('signup/',signup),
+    path('login/',login)
 ]

@@ -388,7 +388,10 @@ body {
 
       <!-- Description Section -->
       <div class="description-section">
-        <textarea class="description-area" readonly>{{ product.desc }}</textarea>
+        <h2>{{ product.name }}</h2>
+        <p><strong>Price:</strong> {{ product.price }}</p>
+        <p><strong>Description:</strong></p>
+        <textarea class="description-area" readonly>{{ product.description }}</textarea>
 
         <div class="status-section">
           {% if product.availability %}

@@ -416,19 +416,20 @@ body {
     <div class="products-container">
       <h3>Product Listings</h3>
       <div class="product-grid">
-        <div class="product-card" onclick="viewProduct(1)">
+        <div class="product-card" onclick="viewProduct('Golden Yellow Hoodie')">
           <img src="https://muselot.in/cdn/shop/products/Unisex--Plain--Golden-Yellow--hoodies-Muselot_6d8a2a23-85d5-468b-9c12-31f3a556300b.jpg?v=1638652618" class="product-image" alt="Golden Yellow Hoodie">
           <h3>Golden Yellow Hoodie</h3>
           <p>₹800</p>
           <span class="product-status">Available</span>
         </div>
-        <div class="product-card" onclick="viewProduct(2)">
+        <div class="product-card" onclick="viewProduct('Red Oversized Hoodie')">
           <img src="https://www.bonkerscorner.com/cdn/shop/files/red-signature-oversized-heavyweight-hoodie-fleece-xs-bonkerscorner-store-33689144623204.jpg?v=1728983063" class="product-image" alt="Red Oversized Hoodie">
           <h3>Red Oversized Hoodie</h3>
           <p>₹1200</p>
           <span class="product-status">Available</span>
         </div>
-        <div class="product-card" onclick="viewProduct(3)">
+        <div class="product-card" onclick="viewProduct('Navy Blue Hoodie')"
+>
           <img src="https://www.teez.in/cdn/shop/products/Plain-Hoodies-2.jpg?v=1574841633" class="product-image" alt="Navy Blue Hoodie">
           <h3>Navy Blue Hoodie</h3>
           <p>₹950</p>
@@ -452,13 +453,13 @@ body {
           <p>₹850</p>
           <span class="product-status">Available</span>
         </div>
-        <div class="product-card" onclick="viewProduct(7)">
+        <div class="product-card" onclick="viewProduct('Baby Pink Hoodie')">
           <img src="https://thebanyantee.com/cdn/shop/files/Baby-Pink_34d822c7-208a-4c95-adaa-bd56216b5fd2.jpg?v=1712927946" class="product-image" alt="Baby Pink Hoodie">
           <h3>Baby Pink Hoodie</h3>
           <p>₹900</p>
           <span class="product-status">Available</span>
         </div>
-        <div class="product-card" onclick="viewProduct(8)">
+        <div class="product-card" onclick="viewProduct('White Basic Hoodie')">
           <img src="https://cdn.media.amplience.net/i/mrpricegroup/01_105799818_SI_00?$preset$&w=320" class="product-image" alt="White Basic Hoodie">
           <h3>White Basic Hoodie</h3>
           <p>₹700</p>
@@ -480,10 +481,9 @@ function filterCategory(category) {
 }
 
 // Product view functionality
-function viewProduct(productId) {
-    console.log('Viewing product:', productId);
-    // Navigate to product detail page
-    window.location.href = `/create/`;
+function viewProduct(productName) {
+    const slugifiedName = productName.toLowerCase().replace(/\s+/g, '-');
+    window.location.href = `/product/${slugifiedName}/`;
 }
 
 // Search functionality

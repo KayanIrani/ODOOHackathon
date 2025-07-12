@@ -68,26 +68,61 @@ def signup(req):
 
     return render(req, 'ReWear/signup.html')
 
+@csrf_exempt
 def create(req):
+    if req.method == "POST":
+        try:
+            # Extract data from form (not raw body)
+            title = req.POST.get("Title")
+            points = req.POST.get("Points")
+            description = req.POST.get("Description")
+            seller = req.POST.get("Seller")
+            buyer = req.POST.get("Buyer", "")  # Allow optional
+            image = req.POST.get("ProductImage")
+            is_bought = req.POST.get("isBought") == "on"  # Checkbox returns "on"
+
+            # Validate
+            if not all([title, points, description, seller, image]):
+                return JsonResponse({"success": False, "message": "All fields except buyer are required"}, status=400)
+
+            # Prepare payload for Express
+            payload = {
+                "Title": title,
+                "Points": int(points),
+                "Description": description,
+                "Seller": seller,
+                "Buyer": buyer or "",
+                "ProductImage": image,
+                "isBought": is_bought
+            }
+
+            res = requests.post("http://localhost:5000/api/products/", json=payload)
+            return JsonResponse(res.json(), status=res.status_code)
+
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)}, status=500)
+
     return render(req, 'ReWear/add_product.html')
+
 
 def product(request, name):
     try:
-        # GET product data from Express backend by name
-        response = requests.get(f"http://localhost:5000/api/products?name={name}")
-        if response.status_code != 200:
-            return render(request, "ReWear/product_description.html", {"error": "Product not found"})
+        # Convert hyphenated name back to original with spaces and title case
+        actual_name = name.replace('-', ' ').title()
 
-        product = response.json()
+        # Use dummy data since there's no Express product backend
+        dummy_product = {
+            "name": actual_name,
+            "price": "₹800",
+            "availability": True,
+            "description": "This is a placeholder hoodie used for demo purposes.",
+            "images": [
+                "https://muselot.in/cdn/shop/products/Unisex--Plain--Golden-Yellow--hoodies-Muselot_6d8a2a23-85d5-468b-9c12-31f3a556300b.jpg?v=1638652618",
+                "https://muselot.in/cdn/shop/products/Unisex--Plain--Golden-Yellow--hoodies-Muselot_6d8a2a23-85d5-468b-9c12-31f3a556300b.jpg?v=1638652618"
+            ]
+        }
 
-        # Convert the image string to a list if it's a string
-        if isinstance(product.get("images"), str):
-            product["images"] = json.loads(product["images"])
-
-        # Convert string 'true'/'false' to boolean
-        product["availability"] = product.get("availability", "").lower() == "true"
-
-        return render(request, "ReWear/product_description.html", {"product": product})
+        return render(request, "ReWear/product_description.html", {"product": dummy_product})
 
     except Exception as e:
         return render(request, "ReWear/product_description.html", {"error": str(e)})

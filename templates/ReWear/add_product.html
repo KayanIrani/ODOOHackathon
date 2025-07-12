@@ -420,51 +420,88 @@ body {
   <!-- Main Content -->
   <div class="add-product-content">
     <!-- Add Product Form -->
-    <div class="add-product-form">
-      <div class="form-section">
-        <h3>📸 Add Product Image</h3>
-        <div class="image-input-section">
-          <label for="imageUrlInput" style="display: block; margin-bottom: 8px; font-weight: bold; color: #333;">Image URL:</label>
-          <div class="image-url-container">
-            <textarea 
-              class="image-url-input" 
-              id="imageUrlInput" 
-              placeholder="Enter image URL (e.g., https://example.com/image.jpg)&#10;&#10;You can paste multiple URLs, one per line"
-              style="border: 2px solid #9d4edd; background: white; color: #333;"
-              rows="3"
-            ></textarea>
-            <button class="check-button" onclick="checkImage()">Check</button>
-          </div>
-          <div class="error-message" id="imageError"></div>
-          <div class="image-display-box" id="imageDisplayBox">
-            <div class="placeholder-text">
-              <p>🖼️ Enter an image URL above and click "Check" to preview</p>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="add-product-form">
+  <form method="POST">
+    {% csrf_token %}
 
-      <div class="form-section">
-        <h3>📝 Product Description</h3>
-        <div class="description-section">
-          <textarea 
-            class="description-input" 
-            id="descriptionInput" 
-            placeholder="Describe your product in detail (brand, size, condition, color, features, reason for selling, etc.)"
-            maxlength="1000"
-            oninput="updateCharacterCount()"
-          ></textarea>
-          <div class="character-counter" id="characterCounter">0 / 1000 characters</div>
-          <div class="error-message" id="descriptionError"></div>
-        </div>
-      </div>
-
-      <div class="success-message" id="successMessage"></div>
-      
-      <button class="list-item-button" id="listItemButton" onclick="listMyItem()" disabled>
-        🚀 List My Item
-      </button>
+    <!-- Product Title -->
+    <div class="form-section">
+      <h3>📌 Product Title</h3>
+      <input type="text" name="title" required class="image-url-input" placeholder="Enter product title" />
     </div>
+
+    <!-- Product Points -->
+    <div class="form-section">
+      <h3>🎯 Points</h3>
+      <input type="number" name="points" required class="image-url-input" placeholder="Enter points value" />
+    </div>
+
+    <!-- Product Image URL -->
+    <div class="form-section">
+      <h3>📸 Add Product Image</h3>
+      <div class="image-input-section">
+        <label for="imageUrlInput">Image URL:</label>
+        <textarea name="productImage" class="image-url-input" id="imageUrlInput" rows="3"
+          placeholder="Enter image URL (e.g., https://example.com/image.jpg)"></textarea>
+        <button type="button" class="check-button" onclick="checkImage()">Check</button>
+        <div class="error-message" id="imageError"></div>
+        <div class="image-display-box" id="imageDisplayBox">
+          <div class="placeholder-text">
+            <p>🖼️ Enter an image URL above and click "Check" to preview</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-section">
+      <h3>📝 Product Description</h3>
+      <textarea name="description" class="description-input" id="descriptionInput" placeholder="Describe your product..." maxlength="1000" oninput="updateCharacterCount()"></textarea>
+      <div class="character-counter" id="characterCounter">0 / 1000 characters</div>
+      <div class="error-message" id="descriptionError"></div>
+    </div>
+
+    <!-- Buyer -->
+    <div class="form-section">
+      <h3>🧑 Buyer (Optional)</h3>
+      <input type="text" name="buyer" class="image-url-input" placeholder="Enter buyer username (optional)" />
+    </div>
+
+    <!-- Location -->
+    <div class="form-section">
+      <h3>📍 Location</h3>
+      <input type="text" name="location" class="image-url-input" placeholder="Enter product location (city, area)" />
+    </div>
+
+    <!-- Size -->
+    <div class="form-section">
+      <h3>📏 Size</h3>
+      <input type="text" name="size" class="image-url-input" placeholder="e.g., S, M, L, XL" />
+    </div>
+
+    <!-- Color -->
+    <div class="form-section">
+      <h3>🎨 Color</h3>
+      <input type="text" name="color" class="image-url-input" placeholder="e.g., Black, Blue, Maroon" />
+    </div>
+
+    <!-- Is Bought -->
+    <div class="form-section">
+      <h3>✅ Mark as Bought?</h3>
+      <label style="display: flex; align-items: center; gap: 10px;">
+        <input type="checkbox" name="isBought" />
+        <span style="color: #555;">Check if already bought/swapped</span>
+      </label>
+    </div>
+
+    <!-- Submit -->
+    <div class="success-message" id="successMessage"></div>
+    <button type="submit" class="list-item-button">
+      🚀 Submit Product
+    </button>
+  </form>
+</div>
+
 
     <!-- Previous Listings -->
     <div class="previous-listings">

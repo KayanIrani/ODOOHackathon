@@ -110,9 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      if (passwordVal.length < 8) {
+      if (passwordVal.length < 7) {
         e.preventDefault();
-        signupError.textContent = "Password must be at least 8 characters.";
+        signupError.textContent = "Password must be at least 7 characters.";
         signupError.style.display = "block";
         return;
       }
@@ -122,20 +122,20 @@ document.addEventListener("DOMContentLoaded", function () {
       const digits = (passwordVal.match(/[0-9]/g) || []).length;
       const specialChars = (passwordVal.match(/[^A-Za-z0-9]/g) || []).length;
 
-      if (uppercase < 2 || lowercase < 2 || digits < 1 || specialChars < 1) {
+      if (uppercase < 2 || lowercase < 2 || digits < 2 || specialChars < 1) {
         e.preventDefault();
-        signupError.textContent = "Password must have at least 2 uppercase, 2 lowercase, 1 number, and 1 special character.";
+        signupError.textContent = "Password must have at least 2 uppercase, 2 lowercase, 2 numbers, and 1 special character.";
         signupError.style.display = "block";
         return;
       }
 
       const signupData = {
-        profilePic: "default",
-        firstName: nameVal,
-        surname: surnameVal,
-        username: usernameVal,
-        email: emailVal,
-        password: passwordVal,
+        UserFirstName: nameVal,
+        UserLastName: surnameVal,
+        UserEmail: emailVal,
+        Username: usernameVal,
+        UserPassword: passwordVal,
+        UserImage: "default",
       };
 
       fetch("/signup/", {
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
           alert("Signup successful!");
           window.location.href = "/login/";  //redirection on creation of account
         } else {
-          signupError.textContent = data.message || "Signup failed.";
+          signupError.textContent = data.data || "Signup failed.";
           signupError.style.display = "block";
         }
       })

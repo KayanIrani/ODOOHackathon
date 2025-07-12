@@ -18,15 +18,15 @@ def signup(req):
             data = json.loads(req.body)
 
             # Hash the password before sending to Express
-            raw_password = data.get("password")
-            data["password"] = make_password(raw_password)
+            raw_password = data.get("UserPassword")
+            data["UserPassword"] = make_password(raw_password)
 
             # Add default profilePic if not present
-            if "profilePic" not in data:
-                data["profilePic"] = "default"
+            if "UserImage" not in data:
+                data["UserImage"] = "default"
 
             # Forward to Express API
-            response = requests.post("http://localhost:5000/api/users/signup", json=data)
+            response = requests.post("http://localhost:5000/api/users/", json=data)
 
             return JsonResponse(response.json(), status=response.status_code)
 

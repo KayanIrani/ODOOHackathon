@@ -71,8 +71,26 @@ def signup(req):
 def create(req):
     return HttpResponse("<h1> Create Listing </h1>")
 
-def product(req):
-    return render(req, 'ReWear/product_description.html')
+def product(request, name):
+    try:
+        # GET product data from Express backend by name
+        response = requests.get(f"http://localhost:5000/api/products?name={name}")
+        if response.status_code != 200:
+            return render(request, "ReWear/product_description.html", {"error": "Product not found"})
+
+        product = response.json()
+
+        # Convert the image string to a list if it's a string
+        if isinstance(product.get("images"), str):
+            product["images"] = json.loads(product["images"])
+
+        # Convert string 'true'/'false' to boolean
+        product["availability"] = product.get("availability", "").lower() == "true"
+
+        return render(request, "ReWear/product_description.html", {"product": product})
+
+    except Exception as e:
+        return render(request, "ReWear/product_description.html", {"error": str(e)})
 
 def user(req):
     return HttpResponse("<h1> User Dashboard </h1>")

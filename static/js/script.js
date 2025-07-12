@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
     Password: "Pass@123"}
 
   const loginForm = document.getElementById("loginForm");
+  if(loginForm){
   const usernameInput = document.getElementById("username");
   const passwordInput = document.getElementById("password");
   const togglePassword = document.getElementById("togglePassword");
@@ -48,11 +49,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+
   //password visibility toggler
   togglePassword.addEventListener("click", function () {
     const isHidden = passwordInput.getAttribute("type") === "password";
     passwordInput.setAttribute("type", isHidden ? "text" : "password");
   });
+}
 
   const signupForm = document.getElementById("signupForm");
   if (signupForm) {
@@ -77,6 +80,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const usernameVal = username.value.trim();
       const emailVal = email.value.trim();
       const passwordVal = password.value;
+      console.log("First Name:", nameVal);
+      console.log("Surname:", surnameVal);
+      console.log("Username:", usernameVal);
+      console.log("Email:", emailVal);
+      console.log("Password:", passwordVal);
+
 
       //Login page validation
       if (!nameVal || !surnameVal || !usernameVal || !emailVal || !passwordVal) {
@@ -102,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (passwordVal.length < 8) {
+        alert("password length>8");
         e.preventDefault();
         signupError.textContent = "Password must be at least 8 characters.";
         signupError.style.display = "block";
@@ -119,8 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
         signupError.style.display = "block";
         return;
       }
-
-      e.preventDefault(); // prevent normal form submit
 
       const signupData = {
         profilePic: "default",

@@ -72,6 +72,35 @@ body {
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Breadcrumbs - IMPORTANT */
+.breadcrumbs {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 15px 20px;
+  position: relative;
+  z-index: 9;
+  font-size: 14px;
+  color: #555;
+  border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+}
+
+.breadcrumbs span {
+  color: #9d4edd;
+  font-weight: 500;
+}
+
+.breadcrumbs a {
+  color: #9d4edd;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.breadcrumbs a:hover {
+  color: #7b2cbf;
+  text-decoration: underline;
+}
+
 .search-section {
   padding: 20px;
   position: relative;
@@ -327,6 +356,11 @@ body {
       <a href="/user/">Profile</a>
       <a href="/login/">Login</a>
     </div>
+  </nav>
+
+  <!-- Breadcrumbs - IMPORTANT -->
+  <nav class="breadcrumbs">
+    <a href="/" style="color: #9d4edd; text-decoration: none; font-weight: 500;">Home</a> › <span>Products</span> › <span>Golden Yellow Hoodie</span>
   </nav>
 
   <!-- Search Bar -->

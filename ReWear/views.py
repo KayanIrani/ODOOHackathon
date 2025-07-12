@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.hashers import make_password, check_password
+
 # Create your views here.
 def home(req):
     return HttpResponse("<h1> Home </h1>")

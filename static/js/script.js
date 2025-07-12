@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
     });
-
+    //eye toggler thing for sign up form
     toggleSignupPassword.addEventListener("click", function () {
       const isHidden = password.getAttribute("type") === "password";
       password.setAttribute("type", isHidden ? "text" : "password");

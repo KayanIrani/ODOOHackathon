@@ -371,29 +371,39 @@ body {
     </div>
   </div>
 
- {% if product %}
-  <div class="image-display-area">
-    <img src="{{ product.images.0 }}" alt="Main Product Image">
-  </div>
-  <div class="image-grid" id="imageGrid">
-    {% for img in product.images %}
-      <img src="{{ img }}" class="image-preview" alt="Product View {{ forloop.counter }}">
-    {% endfor %}
-  </div>
+{% if product %}
+  <div class="product-content">
+    <div class="product-main">
+      <!-- Image Section -->
+      <div class="image-section">
+        <div class="image-display-area">
+          <img src="{{ product.images.0 }}" alt="Main Product Image" id="mainProductImage">
+        </div>
+        <div class="image-grid" id="imageGrid">
+          {% for img in product.images %}
+            <img src="{{ img }}" class="image-preview" alt="Product View {{ forloop.counter }}">
+          {% endfor %}
+        </div>
+      </div>
 
-  <textarea class="description-area" readonly>
-    {{ product.desc }}
-  </textarea>
+      <!-- Description Section -->
+      <div class="description-section">
+        <textarea class="description-area" readonly>{{ product.desc }}</textarea>
 
-  <div class="status-section">
-    {% if product.availability %}
-      <span class="status-indicator status-available">Available</span>
-    {% else %}
-      <span class="status-indicator status-unavailable">Unavailable</span>
-    {% endif %}
+        <div class="status-section">
+          {% if product.availability %}
+            <span class="status-indicator status-available">Available</span>
+            <button class="swap-button" onclick="handleSwap()">Swap</button>
+          {% else %}
+            <span class="status-indicator status-unavailable">Unavailable</span>
+            <button class="swap-button" disabled>Unavailable</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
   </div>
 {% else %}
-  <p>Product not found or an error occurred.</p>
+  <p style="text-align: center; padding: 40px;">Product not found or an error occurred.</p>
 {% endif %}
 
 {% endblock %}
@@ -403,10 +413,7 @@ body {
 // Handle swap functionality
 function handleSwap() {
     const statusIndicator = document.querySelector('.status-indicator');
-    const swapButton = document.querySelector('.swap-button');
-    
-    if (statusIndicator.classList.contains('status-available')) {
-        // Show swap dialog/modal
+    if (statusIndicator && statusIndicator.classList.contains('status-available')) {
         if (confirm('Are you sure you want to initiate a swap for this item?')) {
             alert('Swap request initiated! You will be contacted by the owner.');
         }
@@ -415,67 +422,48 @@ function handleSwap() {
     }
 }
 
-// Image preview click functionality
-document.addEventListener('click', function(e) {
-    // Handle image preview clicks to update main display
-    if (e.target.classList.contains('image-preview')) {
-        const mainImageContainer = document.querySelector('.image-display-area img');
-        if (mainImageContainer) {
-            mainImageContainer.src = e.target.src;
-            mainImageContainer.alt = e.target.alt;
-        }
-        return; // Don't open modal for preview clicks
-    }
-    
-    // Handle main image and listing image clicks to view larger
-    if (e.target.classList.contains('main-product-image') || e.target.classList.contains('listing-image') || 
-        (e.target.parentElement && e.target.parentElement.classList.contains('image-display-area'))) {
-        // Create modal for enlarged view
-        const modal = document.createElement('div');
-        modal.style.position = 'fixed';
-        modal.style.top = '0';
-        modal.style.left = '0';
-        modal.style.width = '100%';
-        modal.style.height = '100%';
-        modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
-        modal.style.display = 'flex';
-        modal.style.justifyContent = 'center';
-        modal.style.alignItems = 'center';
-        modal.style.zIndex = '1000';
-        modal.style.cursor = 'pointer';
-        
-        const img = document.createElement('img');
-        img.src = e.target.src;
-        img.style.maxWidth = '90%';
-        img.style.maxHeight = '90%';
-        img.style.objectFit = 'contain';
-        img.style.borderRadius = '10px';
-        
-        modal.appendChild(img);
-        document.body.appendChild(modal);
-        
-        modal.onclick = function() {
-            document.body.removeChild(modal);
-        };
-    }
+// Amazon-style thumbnail switcher
+document.addEventListener('DOMContentLoaded', function () {
+    const mainImage = document.getElementById('mainProductImage');
+    const thumbnails = document.querySelectorAll('.image-preview');
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function () {
+            if (mainImage) {
+                mainImage.src = this.src;
+                mainImage.alt = this.alt;
+            }
+        });
+    });
 });
 
-// Example function to change availability status
-function toggleAvailability() {
-    const statusIndicator = document.querySelector('.status-indicator');
-    const swapButton = document.querySelector('.swap-button');
-    
-    if (statusIndicator.classList.contains('status-available')) {
-        statusIndicator.classList.remove('status-available');
-        statusIndicator.classList.add('status-unavailable');
-        statusIndicator.textContent = 'Unavailable';
-        swapButton.disabled = true;
-    } else {
-        statusIndicator.classList.remove('status-unavailable');
-        statusIndicator.classList.add('status-available');
-        statusIndicator.textContent = 'Available';
-        swapButton.disabled = false;
+// Enlarge image on click
+document.addEventListener('click', function (e) {
+    const isImage = e.target.classList.contains('main-product-image') || 
+                    e.target.classList.contains('listing-image') || 
+                    e.target.id === 'mainProductImage';
+
+    if (isImage) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; cursor: pointer;
+        `;
+
+        const img = document.createElement('img');
+        img.src = e.target.src;
+        img.style.cssText = `
+            max-width: 90%; max-height: 90%;
+            object-fit: contain; border-radius: 10px;
+        `;
+
+        modal.appendChild(img);
+        document.body.appendChild(modal);
+        modal.onclick = () => document.body.removeChild(modal);
     }
-}
+});
 </script>
 {% endblock %}
